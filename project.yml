@@ -9,8 +9,9 @@ options:
 settings:
   base:
     SWIFT_VERSION: 5.10
-    DEVELOPMENT_TEAM: ""  # Fill in your Apple Developer Team ID
+    DEVELOPMENT_TEAM: 6LYXW8XMJB
     PRODUCT_BUNDLE_IDENTIFIER: com.johnnychung.maestrogemma
+    CODE_SIGN_STYLE: Automatic
 
 targets:
   MaestroGemma:
@@ -35,7 +36,7 @@ targets:
           - UIInterfaceOrientationPortrait
         UIRequiresFullScreen: true
     dependencies:
-      - framework: ../cactus-sdk/apple/cactus-ios.xcframework
+      - framework: cactus-sdk/apple/cactus-ios.xcframework
         embed: true
     settings:
       base:

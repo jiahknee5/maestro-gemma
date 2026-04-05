@@ -28,34 +28,17 @@ actor GemmaCoach {
     }
 
     private func loadModel() async {
-        guard let modelPath = cactusFindModel() else {
-            print("[GemmaCoach] Model not found — on-device coaching unavailable")
+        guard let modelPath = ModelDownloader.shared.modelPath() else {
+            print("[GemmaCoach] Model not ready — on-device coaching unavailable")
             return
         }
         do {
             model = try cactusInit(modelPath, nil, false)
             isLoaded = true
-            print("[GemmaCoach] Model loaded: \(modelPath)")
+            print("[GemmaCoach] Model loaded from: \(modelPath)")
         } catch {
             print("[GemmaCoach] Failed to load model: \(error)")
         }
-    }
-
-    private func cactusFindModel() -> String? {
-        // Cactus uses a weights directory, not a single file
-        // Development: weights downloaded alongside the SDK
-        let devPath = Bundle.main.bundlePath
-            .components(separatedBy: "/MaestroGemma.app").first
-            .map { $0 + "/../cactus-sdk/weights/gemma-4-e2b-it" } ?? ""
-
-        if FileManager.default.fileExists(atPath: devPath) {
-            return devPath
-        }
-
-        // Production: weights in app Documents directory
-        let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("gemma-4-e2b-it").path
-        return FileManager.default.fileExists(atPath: docsPath) ? docsPath : nil
     }
 
     // MARK: - Routing

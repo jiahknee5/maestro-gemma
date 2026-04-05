@@ -20,8 +20,10 @@
 		569EE4E514F5D886E51EA304 /* TeacherReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8C77088301CB377DEB1617 /* TeacherReportView.swift */; };
 		5FB286956AFD45BAB360951F /* CoachingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */; };
 		6044CCCB16B174563A3C79BB /* PitchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */; };
+		66E2FAC767B674F8B3B714BC /* ModelDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D1A64DB481C4751677B90 /* ModelDownloader.swift */; };
 		7C7172D0AD067ADDB5A8188D /* Cactus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BE6E9433733BD196E03D01 /* Cactus.swift */; };
 		82BCB1FA30AD240BECFE13EB /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D813FE80423E70B0CC4ABA60 /* SessionSummaryView.swift */; };
+		89C7CA78E3F7D5BB19BBFCFC /* ModelLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B415475D6D3405ED5639F0 /* ModelLoadingView.swift */; };
 		8CA300A1770D2B439ED9434A /* PostureSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */; };
 		B8447DAD508AF1A57D3E93E4 /* AskCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED5542D48767A5552FE99BE /* AskCoachView.swift */; };
 		BC7F6EE2A9034D0ACB92B3CB /* CoachingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */; };
@@ -47,10 +49,12 @@
 		1E9030B0A0C162C0995082EC /* PitchDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchDisplayView.swift; sourceTree = "<group>"; };
 		2744E8D6E6B143519013B356 /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
 		289DB4BF5AAA39744865D1CB /* PostureAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureAnalyzer.swift; sourceTree = "<group>"; };
+		29B415475D6D3405ED5639F0 /* ModelLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLoadingView.swift; sourceTree = "<group>"; };
 		4E410A13D4477D32250F5BE9 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		5B8C77088301CB377DEB1617 /* TeacherReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherReportView.swift; sourceTree = "<group>"; };
 		5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureSkeletonView.swift; sourceTree = "<group>"; };
 		69C5176C6CFB3120E6BBCC24 /* MaestroGemma.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MaestroGemma.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D0D1A64DB481C4751677B90 /* ModelDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDownloader.swift; sourceTree = "<group>"; };
 		6D5248BE6BD0B6D0F2CE9701 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		72E40E6730890268276DCDDF /* GemmaCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemmaCoach.swift; sourceTree = "<group>"; };
 		7964A8CC3D06B46394D7D845 /* coaching-prompts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "coaching-prompts.json"; sourceTree = "<group>"; };
@@ -58,7 +62,7 @@
 		97D987DAB7CF20A8CBC03B2F /* MaestroGemmaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaestroGemmaApp.swift; sourceTree = "<group>"; };
 		9F2591DCD8CA1D060A3419EB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C6ABC69EC02E23F02EE2BADC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C6BE50DBABFB4A8DC4C56A44 /* cactus-ios.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "cactus-ios.xcframework"; path = "../cactus-sdk/apple/cactus-ios.xcframework"; sourceTree = "<group>"; };
+		C6BE50DBABFB4A8DC4C56A44 /* cactus-ios.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "cactus-ios.xcframework"; path = "cactus-sdk/apple/cactus-ios.xcframework"; sourceTree = "<group>"; };
 		D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchDetector.swift; sourceTree = "<group>"; };
 		D813FE80423E70B0CC4ABA60 /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
 		E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingOverlayView.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 				4E410A13D4477D32250F5BE9 /* CameraManager.swift */,
 				E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */,
 				6D5248BE6BD0B6D0F2CE9701 /* HistoryView.swift */,
+				29B415475D6D3405ED5639F0 /* ModelLoadingView.swift */,
 				1E9030B0A0C162C0995082EC /* PitchDisplayView.swift */,
 				5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */,
 				2744E8D6E6B143519013B356 /* PracticeView.swift */,
@@ -147,6 +152,7 @@
 				F7BE6E9433733BD196E03D01 /* Cactus.swift */,
 				F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */,
 				72E40E6730890268276DCDDF /* GemmaCoach.swift */,
+				6D0D1A64DB481C4751677B90 /* ModelDownloader.swift */,
 				82CBDD069C4A857134A46298 /* OllamaClient.swift */,
 				D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */,
 				289DB4BF5AAA39744865D1CB /* PostureAnalyzer.swift */,
@@ -187,7 +193,8 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					CBC7534922B109019C3CEA0D = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 6LYXW8XMJB;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -235,6 +242,8 @@
 				08A92326FBE97CA90C9FAA3D /* GemmaCoach.swift in Sources */,
 				27B70195079047B74A389D82 /* HistoryView.swift in Sources */,
 				473039E74E645578C5C19F99 /* MaestroGemmaApp.swift in Sources */,
+				66E2FAC767B674F8B3B714BC /* ModelDownloader.swift in Sources */,
+				89C7CA78E3F7D5BB19BBFCFC /* ModelLoadingView.swift in Sources */,
 				BF777B66C794B0BF44DABF90 /* OllamaClient.swift in Sources */,
 				6044CCCB16B174563A3C79BB /* PitchDetector.swift in Sources */,
 				415200844F3690D4FC8D670C /* PitchDisplayView.swift in Sources */,
@@ -256,7 +265,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"../cactus-sdk/apple\"",
+					"\"cactus-sdk/apple\"",
 				);
 				INFOPLIST_FILE = MaestroGemma/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -302,9 +311,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6LYXW8XMJB;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -360,9 +370,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6LYXW8XMJB;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -399,7 +410,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"../cactus-sdk/apple\"",
+					"\"cactus-sdk/apple\"",
 				);
 				INFOPLIST_FILE = MaestroGemma/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
