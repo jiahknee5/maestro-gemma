@@ -20,6 +20,7 @@
 		569EE4E514F5D886E51EA304 /* TeacherReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8C77088301CB377DEB1617 /* TeacherReportView.swift */; };
 		5FB286956AFD45BAB360951F /* CoachingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */; };
 		6044CCCB16B174563A3C79BB /* PitchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */; };
+		7C7172D0AD067ADDB5A8188D /* Cactus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BE6E9433733BD196E03D01 /* Cactus.swift */; };
 		82BCB1FA30AD240BECFE13EB /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D813FE80423E70B0CC4ABA60 /* SessionSummaryView.swift */; };
 		8CA300A1770D2B439ED9434A /* PostureSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */; };
 		B8447DAD508AF1A57D3E93E4 /* AskCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED5542D48767A5552FE99BE /* AskCoachView.swift */; };
@@ -63,6 +64,7 @@
 		E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingOverlayView.swift; sourceTree = "<group>"; };
 		EED5542D48767A5552FE99BE /* AskCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskCoachView.swift; sourceTree = "<group>"; };
 		F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingTypes.swift; sourceTree = "<group>"; };
+		F7BE6E9433733BD196E03D01 /* Cactus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cactus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 		F8A2BC52B3963267D9D8A373 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F7BE6E9433733BD196E03D01 /* Cactus.swift */,
 				F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */,
 				72E40E6730890268276DCDDF /* GemmaCoach.swift */,
 				82CBDD069C4A857134A46298 /* OllamaClient.swift */,
@@ -224,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8447DAD508AF1A57D3E93E4 /* AskCoachView.swift in Sources */,
+				7C7172D0AD067ADDB5A8188D /* Cactus.swift in Sources */,
 				1DB541C24816A7997F7F59FD /* CameraManager.swift in Sources */,
 				5FB286956AFD45BAB360951F /* CoachingOverlayView.swift in Sources */,
 				BC7F6EE2A9034D0ACB92B3CB /* CoachingTypes.swift in Sources */,

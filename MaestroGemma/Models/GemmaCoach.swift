@@ -42,13 +42,19 @@ actor GemmaCoach {
     }
 
     private func cactusFindModel() -> String? {
-        // Check app bundle first, then Documents directory
-        let modelName = "gemma-4-e2b-it"
-        if let bundlePath = Bundle.main.path(forResource: modelName, ofType: nil) {
-            return bundlePath
+        // Cactus uses a weights directory, not a single file
+        // Development: weights downloaded alongside the SDK
+        let devPath = Bundle.main.bundlePath
+            .components(separatedBy: "/MaestroGemma.app").first
+            .map { $0 + "/../cactus-sdk/weights/gemma-4-e2b-it" } ?? ""
+
+        if FileManager.default.fileExists(atPath: devPath) {
+            return devPath
         }
+
+        // Production: weights in app Documents directory
         let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("\(modelName)").path
+            .appendingPathComponent("gemma-4-e2b-it").path
         return FileManager.default.fileExists(atPath: docsPath) ? docsPath : nil
     }
 
