@@ -1,65 +1,42 @@
 # State
-Gate: 1 pending | Updated: 2026-04-04 | Infra merged: false
+Status: BUILDING | Updated: 2026-04-05 | Infra merged: false
 
 ---
 
 ## What Is Actually Built and Working
 
-Nothing yet — fresh project, no Xcode project created.
-
-Reference only (do not touch):
-- MaestroAI v1 source: on M4 Pro MBP (location unconfirmed)
-- v1 App Store assets: ~/maestroai-appstore/ on M5 Max
-
----
-
-## External Dependencies — Status
-
-| Dependency | Status | Notes |
-|---|---|---|
-| Cactus iOS SDK | CONFIRMED | github.com/cactus-compute/cactus v1.12 — XCFramework build, no SPM |
-| Gemma 4 E2B weights | CONFIRMED | huggingface.co/Cactus-Compute/gemma-4-E2B-it (INT4, Apple NPU) |
-| Cactus XCFramework built | PENDING | Xcode confirmed installed — run `cactus build --apple` |
-| Ollama gemma4:26b on Studio | PENDING | Mac Studio unreachable (192.168.0.201 ping timeout) — offline or on different network |
-| Apple Developer account | CONFIRMED | Active, has published apps on App Store previously |
-| Kaggle registration | CONFIRMED | Registered for gemma-4-good-hackathon |
+- Cactus XCFramework: built at `cactus-sdk/apple/cactus-ios.xcframework`
+- Gemma 4 26B: pulled on Mac Studio (Tailscale: 100.103.189.47:11434)
+- Spec: written in memory/PROJECT.md
+- Xcode project: NOT YET CREATED
 
 ---
 
-## Active Deviations from Blueprint
-None.
+## External Dependencies — All Confirmed
+
+| Dependency | Status |
+|---|---|
+| Cactus XCFramework | BUILT — `cactus-sdk/apple/cactus-ios.xcframework` |
+| Gemma 4 E2B weights | CONFIRMED — download at first launch via cactus CLI |
+| Gemma 4 26B on Studio | PULLED — Ollama 0.20.2, mac-studio Tailscale |
+| Apple Developer account | CONFIRMED |
+| Kaggle registration | CONFIRMED |
+| YouTube channel | Needed before Subtask 5 only |
 
 ---
 
-## Pending Sealed File Requests
-None.
+## Build Progress
+
+- [ ] Subtask 0 — Infra: Xcode project scaffold + Cactus integration + Ollama client + routing
+- [ ] Subtask 1 — Practice Screen: camera + posture + pitch + coaching overlay
+- [ ] Subtask 2 — Ask Coach: free-text modal + Ollama routing + fallback
+- [ ] Subtask 3 — Session Intelligence: recording + summary + practice plan
+- [ ] Subtask 4 — Teacher Report: structured export + share sheet
+- [ ] Subtask 5 — Hackathon Submission: writeup + video script + README
 
 ---
 
-## Blocked Subtasks
-Subtask 0 infra blocked until Cactus XCFramework is built on the build machine.
+## Next Session: Resume Here
 
----
-
-## Merge Conflicts
-None.
-
----
-
-## Rollback Info
-Previous git SHA: N/A
-Previous deploy URL: N/A
-Down migration command: N/A
-
----
-
-## Next Session: Start Here
-
-**GATE 1 — Review the spec at memory/PROJECT.md**
-Read the [PM] Spec section. Verify:
-- Problem statement matches your intent
-- Success criteria are testable and correct
-- Scope boundaries match what you want to build
-- Edge cases are handled correctly
-
-When approved: run Architect Agent using `~/.claude/skills/blueprint/architect.md` + STATE.md + BLUEPRINT.md + CONTRACTS.md as context.
+Check this file for current build progress. Pick up the next unchecked subtask.
+Context needed: BLUEPRINT.md + CONTRACTS.md + this STATE.md

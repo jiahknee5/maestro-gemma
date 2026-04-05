@@ -1,0 +1,435 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06995EFAF2FAD41EEF983456 /* cactus-ios.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C6BE50DBABFB4A8DC4C56A44 /* cactus-ios.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08A92326FBE97CA90C9FAA3D /* GemmaCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E40E6730890268276DCDDF /* GemmaCoach.swift */; };
+		1B88149A89C8A45B7CF504D5 /* cactus-ios.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6BE50DBABFB4A8DC4C56A44 /* cactus-ios.xcframework */; };
+		1DB541C24816A7997F7F59FD /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E410A13D4477D32250F5BE9 /* CameraManager.swift */; };
+		27B70195079047B74A389D82 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5248BE6BD0B6D0F2CE9701 /* HistoryView.swift */; };
+		328A031DF475E739A911A40E /* PostureAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289DB4BF5AAA39744865D1CB /* PostureAnalyzer.swift */; };
+		33EC01A5DE1FA8821D785188 /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E8D6E6B143519013B356 /* PracticeView.swift */; };
+		39B5EB8AD342F6B4F58867BC /* coaching-prompts.json in Resources */ = {isa = PBXBuildFile; fileRef = 7964A8CC3D06B46394D7D845 /* coaching-prompts.json */; };
+		415200844F3690D4FC8D670C /* PitchDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9030B0A0C162C0995082EC /* PitchDisplayView.swift */; };
+		473039E74E645578C5C19F99 /* MaestroGemmaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D987DAB7CF20A8CBC03B2F /* MaestroGemmaApp.swift */; };
+		569EE4E514F5D886E51EA304 /* TeacherReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8C77088301CB377DEB1617 /* TeacherReportView.swift */; };
+		5FB286956AFD45BAB360951F /* CoachingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */; };
+		6044CCCB16B174563A3C79BB /* PitchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */; };
+		82BCB1FA30AD240BECFE13EB /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D813FE80423E70B0CC4ABA60 /* SessionSummaryView.swift */; };
+		8CA300A1770D2B439ED9434A /* PostureSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */; };
+		B8447DAD508AF1A57D3E93E4 /* AskCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED5542D48767A5552FE99BE /* AskCoachView.swift */; };
+		BC7F6EE2A9034D0ACB92B3CB /* CoachingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */; };
+		BF777B66C794B0BF44DABF90 /* OllamaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBDD069C4A857134A46298 /* OllamaClient.swift */; };
+		C785BE5F68B11419A8816EC2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2591DCD8CA1D060A3419EB /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EA7B3513F8A33C70A7B9CCE2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				06995EFAF2FAD41EEF983456 /* cactus-ios.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1E9030B0A0C162C0995082EC /* PitchDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchDisplayView.swift; sourceTree = "<group>"; };
+		2744E8D6E6B143519013B356 /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
+		289DB4BF5AAA39744865D1CB /* PostureAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureAnalyzer.swift; sourceTree = "<group>"; };
+		4E410A13D4477D32250F5BE9 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		5B8C77088301CB377DEB1617 /* TeacherReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherReportView.swift; sourceTree = "<group>"; };
+		5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureSkeletonView.swift; sourceTree = "<group>"; };
+		69C5176C6CFB3120E6BBCC24 /* MaestroGemma.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MaestroGemma.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D5248BE6BD0B6D0F2CE9701 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		72E40E6730890268276DCDDF /* GemmaCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemmaCoach.swift; sourceTree = "<group>"; };
+		7964A8CC3D06B46394D7D845 /* coaching-prompts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "coaching-prompts.json"; sourceTree = "<group>"; };
+		82CBDD069C4A857134A46298 /* OllamaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaClient.swift; sourceTree = "<group>"; };
+		97D987DAB7CF20A8CBC03B2F /* MaestroGemmaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaestroGemmaApp.swift; sourceTree = "<group>"; };
+		9F2591DCD8CA1D060A3419EB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C6ABC69EC02E23F02EE2BADC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C6BE50DBABFB4A8DC4C56A44 /* cactus-ios.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "cactus-ios.xcframework"; path = "../cactus-sdk/apple/cactus-ios.xcframework"; sourceTree = "<group>"; };
+		D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchDetector.swift; sourceTree = "<group>"; };
+		D813FE80423E70B0CC4ABA60 /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
+		E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingOverlayView.swift; sourceTree = "<group>"; };
+		EED5542D48767A5552FE99BE /* AskCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskCoachView.swift; sourceTree = "<group>"; };
+		F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingTypes.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5E105924B197DBF367E10D13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B88149A89C8A45B7CF504D5 /* cactus-ios.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2E3BC5DC7B10F0C515775945 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EED5542D48767A5552FE99BE /* AskCoachView.swift */,
+				4E410A13D4477D32250F5BE9 /* CameraManager.swift */,
+				E1C7D2BF2E27DBC34636DFD6 /* CoachingOverlayView.swift */,
+				6D5248BE6BD0B6D0F2CE9701 /* HistoryView.swift */,
+				1E9030B0A0C162C0995082EC /* PitchDisplayView.swift */,
+				5E83FC1DC2BEF89EF10C3D60 /* PostureSkeletonView.swift */,
+				2744E8D6E6B143519013B356 /* PracticeView.swift */,
+				D813FE80423E70B0CC4ABA60 /* SessionSummaryView.swift */,
+				5B8C77088301CB377DEB1617 /* TeacherReportView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		91D15B7E0451A71A05EEE62B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7964A8CC3D06B46394D7D845 /* coaching-prompts.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		93995CED42E06234BDD92700 = {
+			isa = PBXGroup;
+			children = (
+				C780AC08014BBF9742B826C7 /* MaestroGemma */,
+				EC6227645F970FBA0AD71021 /* Frameworks */,
+				C9D7A0EF19B2BDF64AB3A543 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C780AC08014BBF9742B826C7 /* MaestroGemma */ = {
+			isa = PBXGroup;
+			children = (
+				9F2591DCD8CA1D060A3419EB /* ContentView.swift */,
+				C6ABC69EC02E23F02EE2BADC /* Info.plist */,
+				97D987DAB7CF20A8CBC03B2F /* MaestroGemmaApp.swift */,
+				F8A2BC52B3963267D9D8A373 /* Models */,
+				91D15B7E0451A71A05EEE62B /* Resources */,
+				2E3BC5DC7B10F0C515775945 /* Views */,
+			);
+			path = MaestroGemma;
+			sourceTree = "<group>";
+		};
+		C9D7A0EF19B2BDF64AB3A543 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				69C5176C6CFB3120E6BBCC24 /* MaestroGemma.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EC6227645F970FBA0AD71021 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C6BE50DBABFB4A8DC4C56A44 /* cactus-ios.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F8A2BC52B3963267D9D8A373 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F136E3E8A9968C1A532938E2 /* CoachingTypes.swift */,
+				72E40E6730890268276DCDDF /* GemmaCoach.swift */,
+				82CBDD069C4A857134A46298 /* OllamaClient.swift */,
+				D2ED7289F0AE6F6B73BA680C /* PitchDetector.swift */,
+				289DB4BF5AAA39744865D1CB /* PostureAnalyzer.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CBC7534922B109019C3CEA0D /* MaestroGemma */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D2DD56A2DE7816807A25920 /* Build configuration list for PBXNativeTarget "MaestroGemma" */;
+			buildPhases = (
+				9319CC7973B794C431E7732D /* Sources */,
+				6ED81462841ED5DF9FF8AE3C /* Resources */,
+				5E105924B197DBF367E10D13 /* Frameworks */,
+				EA7B3513F8A33C70A7B9CCE2 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MaestroGemma;
+			packageProductDependencies = (
+			);
+			productName = MaestroGemma;
+			productReference = 69C5176C6CFB3120E6BBCC24 /* MaestroGemma.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		456F8C6B42DF889931AAFF5C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					CBC7534922B109019C3CEA0D = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = 62CCACF58947808C02815794 /* Build configuration list for PBXProject "MaestroGemma" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 93995CED42E06234BDD92700;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C9D7A0EF19B2BDF64AB3A543 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CBC7534922B109019C3CEA0D /* MaestroGemma */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6ED81462841ED5DF9FF8AE3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39B5EB8AD342F6B4F58867BC /* coaching-prompts.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9319CC7973B794C431E7732D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8447DAD508AF1A57D3E93E4 /* AskCoachView.swift in Sources */,
+				1DB541C24816A7997F7F59FD /* CameraManager.swift in Sources */,
+				5FB286956AFD45BAB360951F /* CoachingOverlayView.swift in Sources */,
+				BC7F6EE2A9034D0ACB92B3CB /* CoachingTypes.swift in Sources */,
+				C785BE5F68B11419A8816EC2 /* ContentView.swift in Sources */,
+				08A92326FBE97CA90C9FAA3D /* GemmaCoach.swift in Sources */,
+				27B70195079047B74A389D82 /* HistoryView.swift in Sources */,
+				473039E74E645578C5C19F99 /* MaestroGemmaApp.swift in Sources */,
+				BF777B66C794B0BF44DABF90 /* OllamaClient.swift in Sources */,
+				6044CCCB16B174563A3C79BB /* PitchDetector.swift in Sources */,
+				415200844F3690D4FC8D670C /* PitchDisplayView.swift in Sources */,
+				328A031DF475E739A911A40E /* PostureAnalyzer.swift in Sources */,
+				8CA300A1770D2B439ED9434A /* PostureSkeletonView.swift in Sources */,
+				33EC01A5DE1FA8821D785188 /* PracticeView.swift in Sources */,
+				82BCB1FA30AD240BECFE13EB /* SessionSummaryView.swift in Sources */,
+				569EE4E514F5D886E51EA304 /* TeacherReportView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0249FDA099D375DFE899C4C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../cactus-sdk/apple\"",
+				);
+				INFOPLIST_FILE = MaestroGemma/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C23729987336B2823040C70C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnnychung.maestrogemma;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.1;
+			};
+			name = Release;
+		};
+		CDF05D0D5F0480C1DD420533 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnnychung.maestrogemma;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.1;
+			};
+			name = Debug;
+		};
+		D237CBE43C7C582D08659E42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../cactus-sdk/apple\"",
+				);
+				INFOPLIST_FILE = MaestroGemma/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5D2DD56A2DE7816807A25920 /* Build configuration list for PBXNativeTarget "MaestroGemma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0249FDA099D375DFE899C4C1 /* Debug */,
+				D237CBE43C7C582D08659E42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		62CCACF58947808C02815794 /* Build configuration list for PBXProject "MaestroGemma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDF05D0D5F0480C1DD420533 /* Debug */,
+				C23729987336B2823040C70C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 456F8C6B42DF889931AAFF5C /* Project object */;
+}
