@@ -21,9 +21,9 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Maestro Gemma uses the camera to analyze your posture while you practice.</string>
+	<string>Maestro Gemma uses the camera to watch your violin posture and provide real-time technique coaching powered by on-device AI.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Maestro Gemma uses the microphone to detect the pitch of the notes you play.</string>
+	<string>Maestro Gemma uses the microphone to detect the pitch and intonation of the notes you play, providing real-time tuning feedback.</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

@@ -4,25 +4,26 @@ struct CoachingOverlayView: View {
     let text: String
     let source: RoutingTarget
 
+    private var sourceLabel: String {
+        source == .localServer ? "Gemma 4 · 27B · Mac Studio" : "Gemma 4 · E2B · On-Device"
+    }
+
+    private var sourceColor: Color {
+        source == .localServer ? .blue : .green
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 6) {
-                Image(systemName: "person.fill.checkmark")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                Circle()
+                    .fill(sourceColor)
+                    .frame(width: 6, height: 6)
 
-                Text(source == .localServer ? "Maestro (Studio)" : "Maestro")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                Text(sourceLabel)
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                    .foregroundColor(sourceColor.opacity(0.9))
 
                 Spacer()
-
-                if source == .localServer {
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 6, height: 6)
-                        .accessibilityLabel("Deep analysis mode")
-                }
             }
 
             Text(text)

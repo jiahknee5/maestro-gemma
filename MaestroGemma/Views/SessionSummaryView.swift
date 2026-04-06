@@ -10,6 +10,8 @@ struct SessionSummaryView: View {
     @State private var isLoadingPlan = false
     @State private var practicePlan = ""
     @State private var showPlan = false
+    @State private var summarySource: RoutingTarget = .onDevice
+    @State private var planSource: RoutingTarget = .onDevice
 
     var body: some View {
         ScrollView {
@@ -32,8 +34,14 @@ struct SessionSummaryView: View {
 
                 // AI Summary
                 VStack(alignment: .leading, spacing: 8) {
-                    Label("Session Summary", systemImage: "sparkles")
-                        .font(.headline)
+                    HStack {
+                        Label("Session Summary", systemImage: "sparkles")
+                            .font(.headline)
+                        Spacer()
+                        if !isLoadingSummary {
+                            SourceBadge(source: summarySource)
+                        }
+                    }
 
                     if isLoadingSummary {
                         HStack {
@@ -74,8 +82,12 @@ struct SessionSummaryView: View {
                 // Practice Plan
                 if showPlan && !practicePlan.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
-                        Label("This Week's Practice Plan", systemImage: "calendar.badge.checkmark")
-                            .font(.headline)
+                        HStack {
+                            Label("This Week's Practice Plan", systemImage: "calendar.badge.checkmark")
+                                .font(.headline)
+                            Spacer()
+                            SourceBadge(source: planSource)
+                        }
                         Text(practicePlan)
                             .font(.body)
                     }
@@ -117,10 +129,13 @@ struct SessionSummaryView: View {
 
     private func generateSummary() async {
         let issueList = session.topIssues.map { "\($0.0.displayName): \($0.1)x" }.joined(separator: ", ")
-        let prompt = "Session: \(formatDuration(session.duration)) duration. Issues: \(issueList.isEmpty ? "none detected" : issueList). Total feedback events: \(session.events.count)."
-        let (summary, _) = await GemmaCoach.shared.analyze(requestType: .sessionSummary, prompt: prompt)
+        let encouragements = session.events.filter { $0.severity == .encouragement }.count
+        let corrections = session.events.filter { $0.severity == .correction }.count
+        let prompt = "Session: \(formatDuration(session.duration)). Issues: \(issueList.isEmpty ? "none" : issueList). \(session.events.count) coaching events (\(encouragements) encouragements, \(corrections) corrections). Posture score: \(session.postureScore)/100, Intonation score: \(session.intonationScore)/100."
+        let (summary, source) = await GemmaCoach.shared.analyze(requestType: .sessionSummary, prompt: prompt)
         await MainActor.run {
             aiSummary = summary
+            summarySource = source
             session.aiSummary = summary
             isLoadingSummary = false
         }
@@ -129,11 +144,12 @@ struct SessionSummaryView: View {
     private func generatePlan() {
         isLoadingPlan = true
         Task {
-            let issueList = session.topIssues.map { $0.0.displayName }.joined(separator: ", ")
-            let prompt = "Student's main issues from recent practice: \(issueList.isEmpty ? "general technique" : issueList). Create a 5-day practice plan."
-            let (plan, _) = await GemmaCoach.shared.analyze(requestType: .practicePlan, prompt: prompt)
+            let issueList = session.topIssues.map { "\($0.0.displayName): \($0.1)x" }.joined(separator: ", ")
+            let prompt = "Student's main issues: \(issueList.isEmpty ? "general technique" : issueList). Posture score: \(session.postureScore)/100. Intonation score: \(session.intonationScore)/100. Create a 5-day practice plan."
+            let (plan, source) = await GemmaCoach.shared.analyze(requestType: .practicePlan, prompt: prompt)
             await MainActor.run {
                 practicePlan = plan
+                planSource = source
                 session.practicePlan = plan
                 showPlan = true
                 isLoadingPlan = false
@@ -176,5 +192,24 @@ struct ScoreRingView: View {
         }
         .accessibilityLabel("\(label) score: \(score) percent")
         .accessibilityValue("\(score)")
+    }
+}
+
+struct SourceBadge: View {
+    let source: RoutingTarget
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Circle()
+                .fill(source == .localServer ? Color.blue : Color.green)
+                .frame(width: 5, height: 5)
+            Text(source == .localServer ? "27B" : "E2B")
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 3)
+        .background(Color(.tertiarySystemBackground))
+        .clipShape(Capsule())
     }
 }

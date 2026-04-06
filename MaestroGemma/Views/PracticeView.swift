@@ -16,6 +16,9 @@ struct PracticeView: View {
     @State private var showAskCoach = false
     @State private var coachingTask: Task<Void, Never>?
     @State private var navigateToSummary = false
+    @State private var sessionStartTime: Date?
+    @State private var elapsedTime: TimeInterval = 0
+    @State private var lastCoachingText: String = ""
 
     var body: some View {
         NavigationStack {
@@ -31,12 +34,24 @@ struct PracticeView: View {
                     .ignoresSafeArea()
                     .accessibilityHidden(true)
 
+                // Body positioning guide (fades when body detected)
+                BodyGuideOverlay(bodyDetected: postureAnalyzer.bodyDetected)
+                    .ignoresSafeArea()
+
                 VStack(spacing: 0) {
                     // Pitch display
                     PitchDisplayView(note: pitchDetector.detectedNote, cents: pitchDetector.detectedCents)
                         .padding(.top, 60)
 
                     Spacer()
+
+                    // Session timer
+                    if isSessionActive {
+                        Text(formatElapsed(elapsedTime))
+                            .font(.system(size: 14, weight: .medium, design: .monospaced))
+                            .foregroundColor(.white.opacity(0.6))
+                            .padding(.bottom, 4)
+                    }
 
                     // Coaching overlay
                     CoachingOverlayView(text: coachingText, source: coachingSource)
@@ -104,11 +119,15 @@ struct PracticeView: View {
         modelContext.insert(session)
         currentSession = session
         isSessionActive = true
+        sessionStartTime = Date()
+        elapsedTime = 0
+        lastCoachingText = ""
         coachingText = "Great! Let's practice. I'm watching your technique."
 
         pitchDetector.start()
         cameraManager.start()
         startCoachingLoop()
+        startTimer()
     }
 
     private func stopSession() {
@@ -129,31 +148,62 @@ struct PracticeView: View {
         navigateToSummary = true
     }
 
+    // MARK: - Timer
+
+    private func startTimer() {
+        Task {
+            while !Task.isCancelled && isSessionActive {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard let start = sessionStartTime else { break }
+                await MainActor.run { elapsedTime = Date().timeIntervalSince(start) }
+            }
+        }
+    }
+
+    private func formatElapsed(_ t: TimeInterval) -> String {
+        let m = Int(t) / 60
+        let s = Int(t) % 60
+        return String(format: "%d:%02d", m, s)
+    }
+
     // MARK: - Coaching Loop
 
     private func startCoachingLoop() {
         coachingTask = Task {
             while !Task.isCancelled && isSessionActive {
-                try? await Task.sleep(nanoseconds: 2_000_000_000) // every 2s
+                // Wait BEFORE inference so previous response has time to display
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
                 guard !Task.isCancelled else { break }
 
                 let issues = postureAnalyzer.postureIssues
                 let note = pitchDetector.detectedNote
                 let cents = pitchDetector.detectedCents
 
+                // Capture camera frame for Gemma vision
+                let frameBase64 = cameraManager.captureFrameBase64()
+
                 let prompt = buildRealtimePrompt(issues: issues, note: note, cents: cents)
-                let (text, source) = await GemmaCoach.shared.analyze(requestType: .realtimeFrame, prompt: prompt)
+                let (text, source) = await GemmaCoach.shared.analyze(
+                    requestType: .realtimeFrame,
+                    prompt: prompt,
+                    imageBase64: frameBase64
+                )
 
                 guard !Task.isCancelled else { break }
 
-                // Log to session
+                // Skip if model returned same text (avoid repetitive display)
+                guard text != lastCoachingText else { continue }
+
+                // Log to session with inferred severity
                 if let session = currentSession, !text.contains("warming up") {
                     let category = inferCategory(from: issues, note: note)
-                    let event = FeedbackEvent(category: category, message: text, severity: .suggestion, source: source)
+                    let severity = inferSeverity(issues: issues, cents: cents)
+                    let event = FeedbackEvent(category: category, message: text, severity: severity, source: source)
                     session.events.append(event)
                 }
 
                 await MainActor.run {
+                    lastCoachingText = text
                     coachingText = text
                     coachingSource = source
                 }
@@ -163,17 +213,37 @@ struct PracticeView: View {
 
     private func buildRealtimePrompt(issues: [String], note: String, cents: Int) -> String {
         var parts: [String] = []
-        if issues.contains("raisedBowShoulder") { parts.append("raised bow shoulder detected") }
-        if issues.contains("lowBowElbow") { parts.append("bow elbow is low") }
-        if note != "—" && abs(cents) > 15 { parts.append("intonation: \(note) is \(cents > 0 ? "+\(cents)" : "\(cents)") cents") }
-        if parts.isEmpty { parts.append("technique looks good so far") }
-        return "Current observations: \(parts.joined(separator: ", ")). Give one short coaching tip."
+
+        // Sensor data as context alongside the image
+        if issues.contains("raisedBowShoulder") { parts.append("Sensor: right shoulder is raised") }
+        if issues.contains("lowBowElbow") { parts.append("Sensor: bow arm elbow is dropping") }
+        if issues.contains("headTiltedAway") { parts.append("Sensor: head tilting away from chin rest") }
+        if issues.contains("collapsedLeftWrist") { parts.append("Sensor: left wrist is collapsing") }
+        if issues.contains("bodyLeaning") { parts.append("Sensor: body is leaning") }
+        if note != "—" {
+            if abs(cents) > 20 {
+                let direction = cents > 0 ? "sharp" : "flat"
+                parts.append("Microphone: playing \(note), \(abs(cents)) cents \(direction)")
+            } else {
+                parts.append("Microphone: playing \(note), in tune")
+            }
+        }
+        if parts.isEmpty { parts.append("Sensors: no issues detected") }
+
+        return "Look at the image of the student practicing violin. \(parts.joined(separator: ". ")). Based on what you SEE and the sensor data, give ONE short coaching tip."
     }
 
     private func inferCategory(from issues: [String], note: String) -> FeedbackCategory {
-        if issues.contains("raisedBowShoulder") { return .bowArm }
-        if issues.contains("lowBowElbow") { return .bowArm }
+        if issues.contains("raisedBowShoulder") || issues.contains("lowBowElbow") { return .bowArm }
+        if issues.contains("collapsedLeftWrist") { return .leftHand }
+        if issues.contains("headTiltedAway") || issues.contains("bodyLeaning") { return .posture }
         if note != "—" { return .intonation }
         return .general
+    }
+
+    private func inferSeverity(issues: [String], cents: Int) -> Severity {
+        if issues.isEmpty && abs(cents) <= 20 { return .encouragement }
+        if issues.count >= 2 || abs(cents) > 40 { return .correction }
+        return .suggestion
     }
 }

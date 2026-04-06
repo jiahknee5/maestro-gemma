@@ -7,13 +7,13 @@ struct PitchDisplayView: View {
     private var centsColor: Color {
         let abs = Swift.abs(cents)
         if abs <= 10 { return .green }
-        if abs <= 20 { return .yellow }
+        if abs <= 25 { return .yellow }
         return .red
     }
 
     private var centsLabel: String {
         if note == "—" { return "" }
-        if cents == 0 { return "in tune" }
+        if Swift.abs(cents) <= 5 { return "in tune" }
         return cents > 0 ? "+\(cents)¢" : "\(cents)¢"
     }
 

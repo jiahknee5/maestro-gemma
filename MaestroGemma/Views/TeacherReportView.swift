@@ -5,6 +5,7 @@ struct TeacherReportView: View {
     @State private var reportText = ""
     @State private var isLoading = true
     @State private var showShareSheet = false
+    @State private var reportSource: RoutingTarget = .localServer
 
     var body: some View {
         ScrollView {
@@ -24,6 +25,12 @@ struct TeacherReportView: View {
                     )
                     .accessibilityLabel("Home network required for teacher report")
                 } else {
+                    VStack(alignment: .trailing, spacing: 4) {
+                        SourceBadge(source: reportSource)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.horizontal)
+
                     Text(reportText)
                         .font(.body)
                         .padding()
@@ -56,17 +63,23 @@ struct TeacherReportView: View {
             .map { "\($0.0.displayName): \($0.1) occurrence\($0.1 == 1 ? "" : "s")" }
             .joined(separator: ", ")
 
+        let encouragements = session.events.filter { $0.severity == .encouragement }.count
+        let corrections = session.events.filter { $0.severity == .correction }.count
+
         let prompt = """
         Practice session on \(session.startedAt.formatted(date: .abbreviated, time: .omitted)):
         Duration: \(formatDuration(session.duration))
         Top issues observed: \(issueList.isEmpty ? "No significant issues detected" : issueList)
-        Total AI coaching events: \(session.events.count)
+        Posture score: \(session.postureScore)/100
+        Intonation score: \(session.intonationScore)/100
+        Total AI coaching events: \(session.events.count) (\(encouragements) encouragements, \(corrections) corrections)
         AI session summary: \(session.aiSummary ?? "Not available")
         """
 
-        let (report, _) = await GemmaCoach.shared.analyze(requestType: .teacherReport, prompt: prompt)
+        let (report, source) = await GemmaCoach.shared.analyze(requestType: .teacherReport, prompt: prompt)
         await MainActor.run {
             reportText = report
+            reportSource = source
             isLoading = false
         }
     }

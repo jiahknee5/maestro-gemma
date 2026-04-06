@@ -66,10 +66,11 @@ struct AskCoachView: View {
                     } else if !answer.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 6) {
-                                Image(systemName: "person.fill.checkmark")
-                                    .foregroundColor(.blue)
-                                Text(answerSource == .localServer ? "Maestro (Studio)" : "Maestro (on-device)")
-                                    .font(.caption)
+                                Circle()
+                                    .fill(answerSource == .localServer ? Color.blue : Color.green)
+                                    .frame(width: 6, height: 6)
+                                Text(answerSource == .localServer ? "Gemma 4 · 27B · Mac Studio" : "Gemma 4 · E2B · On-Device")
+                                    .font(.system(size: 11, weight: .medium, design: .monospaced))
                                     .foregroundColor(.secondary)
                             }
 

@@ -1,14 +1,13 @@
 # Maestro Gemma — Kaggle Writeup
 **Gemma 4 Good Hackathon · Future of Education Track**
-Target word count: 1,400–1,500
 
 ---
 
 ## The Problem
 
-Private violin lessons cost $80–150 per hour in the United States. For most families, that means one lesson per week — or less. Between lessons, students practice alone, with no one to correct the habits that, if unchecked, become permanent: a raised bow shoulder that causes tension and injury, a collapsed left wrist that kills tone, intonation drift that trains the ear in the wrong direction. By the time the next lesson arrives, the damage is done.
+Private violin lessons cost $80–150 per hour in the United States. For most families, that means one lesson per week — or less. Between lessons, students practice alone, with no one to correct the habits that, if unchecked, become permanent: a raised bow shoulder that causes tension and injury, a collapsed left wrist that kills tone, intonation drift that trains the ear in the wrong direction. By the next lesson arrives, the damage is done.
 
-My son Arthur is eight years old and has been playing violin for two years. He practices thirty minutes a day. I am not a violin teacher, and I cannot be in the room correcting him every session. He is not alone in this situation — an estimated 30 million children study an instrument in the United States, and the majority quit within two years. The research consistently points to a single cause: without feedback, progress stalls, frustration grows, and children give up.
+My son Arthur is eight years old and has been playing violin for two years. He practices thirty minutes a day. I am not a violin teacher, and I cannot be in the room correcting him every session. He is not alone — an estimated 30 million children study an instrument in the United States, and the majority quit within two years. The research consistently points to a single cause: without feedback, progress stalls, frustration grows, and children give up.
 
 Maestro Gemma is my answer to this problem. It is an iOS application that puts a Gemma 4 AI coach in the room for every practice session — watching, listening, and coaching in real time — completely on-device, completely private, completely free.
 
@@ -16,84 +15,68 @@ Maestro Gemma is my answer to this problem. It is an iOS application that puts a
 
 ## The Solution
 
-Maestro Gemma uses Gemma 4 as the core intelligence layer on top of existing iOS frameworks. The architecture has three distinct components working in parallel during a practice session.
+Maestro Gemma uses Gemma 4 as the core intelligence layer, combining multimodal AI with iOS sensor frameworks. Three systems work in parallel during every practice session.
 
-**Vision Layer (Apple Vision):** The iPhone's front camera feeds a continuous stream of frames to Apple's Vision framework, which runs a `VNDetectHumanBodyPoseRequest` at 30fps. The app extracts joint positions for shoulders, elbows, and wrists and runs lightweight heuristic checks for the most common beginner issues — raised bow shoulder, low bow elbow — that can be detected from body geometry alone.
+**Vision Layer:** The iPhone's front camera feeds frames to two systems simultaneously. Apple Vision runs `VNDetectHumanBodyPoseRequest` at 30fps, extracting joint positions for five heuristic posture checks: raised bow shoulder, low bow elbow, head tilted away from chin rest, collapsed left wrist, and body leaning. In parallel, every 3 seconds a camera frame is captured, resized to 384×288, and sent directly to Gemma 4 E2B as a base64 image — so the model can *see* the student and assess technique beyond what geometric rules can detect.
 
-**Audio Layer (AVFoundation):** An AVAudioEngine tap processes microphone input in real time, running an autocorrelation-based pitch detection algorithm on each 4096-sample buffer. The detected frequency is converted to note name and cents deviation, displayed live as the student plays.
+**Audio Layer:** AVFoundation processes microphone input through a smoothed autocorrelation pitch detector. A 5-sample moving average eliminates frame-to-frame jitter, and note hysteresis requires 3 consecutive stable readings before switching the display. Cents are snapped to the nearest 5 to reduce visual noise. The result: a stable, child-friendly pitch display that shows when you're in tune without overwhelming a young player.
 
-**Gemma 4 Coaching Layer (Cactus SDK):** Every two seconds during an active session, the app assembles a prompt from the Vision and Audio observations — detected posture issues, intonation data, session context — and calls Gemma 4 E2B via the Cactus SDK. The model runs fully on-device, INT4 quantized, on the iPhone's Apple Neural Engine. The response is a single, child-appropriate coaching observation: *"Try dropping your right shoulder a little."* or *"Your bow arm looks relaxed — great job!"*
+**Gemma 4 Coaching Layer:** Every 3 seconds, the app assembles a multimodal prompt — the camera frame, detected posture issues, and pitch data — and calls Gemma 4 E2B via the Cactus SDK. The model runs fully on-device, INT4 quantized, on the Apple Neural Engine. It receives both the image and sensor telemetry, producing a single coaching observation: *"Try dropping your right shoulder a little"* or *"Your bow arm looks relaxed — great job!"*
 
-This three-layer approach means that Gemma 4 is not replacing the existing sensors — it is interpreting them. The output is natural language, age-appropriate, and encouraging. Apple Vision provides the geometry; Gemma 4 provides the meaning.
+This architecture means Gemma 4 is not just rephrasing sensor data — it is looking at the student and interpreting what it sees alongside the sensor readings. The output is natural language, age-appropriate, and encouraging.
 
 ---
 
 ## Intelligent Routing — The Cactus Architecture
 
-The real technical innovation in Maestro Gemma is the routing layer between two Gemma 4 models.
+The technical innovation in Maestro Gemma is the two-tier routing layer between Gemma 4 models of different sizes.
 
-**On-device (E2B):** Gemma 4 E2B via Cactus SDK handles all real-time coaching. The Cactus SDK builds the XCFramework from source with Apple NPU support, and the INT4 quantized weights from `Cactus-Compute/gemma-4-E2B-it` load directly into the app. Inference runs in under 500ms per frame on an iPhone 15, entirely offline.
+**On-device (E2B):** Gemma 4 E2B via Cactus SDK handles all real-time coaching with multimodal input (camera frames + sensor text). The Cactus SDK provides the XCFramework with Apple NPU support, and INT4 quantized weights from `Cactus-Compute/gemma-4-E2B-it` load directly on-device. The UI shows a green "Gemma 4 · E2B · On-Device" badge so the user always knows which model is active.
 
-**Local server (26B):** For tasks requiring deeper reasoning — free-text questions from the student, end-of-session summaries, weekly practice plans, and teacher reports — the app routes to Gemma 4 26B running via Ollama on a local Mac Studio connected via Tailscale. This is the same home network the iPhone is on. No cloud. No subscription. No data ever leaves the home network.
+**Local server (27B):** For tasks requiring deeper reasoning — free-text questions, session summaries, practice plans, and teacher reports — the app routes to Gemma 4 27B via Ollama on a local Mac Studio. When available, vision frames are also sent to the 27B model for higher-quality technique assessment. A blue "Gemma 4 · 27B · Mac Studio" badge indicates server-side inference. No cloud. No subscription. No data ever leaves the home network.
 
-The routing logic in `GemmaCoach.swift` is explicit and simple:
+The routing decision is deterministic:
+- Real-time coaching → always on-device E2B (latency-critical)
+- Ask Coach, summaries, plans → 27B if reachable, fallback to E2B
+- Teacher reports → 27B only (quality-critical)
 
-```swift
-switch requestType {
-case .realtimeFrame:
-    return await cactusInference(prompt)          // always on-device
-
-case .askCoach, .sessionSummary, .practicePlan:
-    if await ollamaClient.isReachable() {
-        return await ollamaClient.generate(prompt) // route to 26B
-    }
-    return await cactusInference(prompt)           // fallback on-device
-
-case .teacherReport:
-    guard await ollamaClient.isReachable() else {
-        throw CoachError.studioRequired("Connect to home network")
-    }
-    return await ollamaClient.generate(prompt)     // 26B only
-}
-```
-
-This architecture directly targets the **Cactus Special Technology Prize** — a local-first mobile application that intelligently routes tasks between models based on task complexity and latency requirements. Small model for speed; large model for depth. The routing decision is deterministic, transparent, and documented in the code.
+The reachability check verifies not just that Ollama responds, but that a Gemma model is actually loaded. Every AI-generated response throughout the app shows a source badge indicating which model produced it.
 
 ---
 
 ## Features
 
-**Practice Screen:** Live camera feed with Apple Vision posture skeleton overlay. Pitch display with note name and cents deviation. Gemma 4 coaching text overlay updating every 2 seconds. "Ask Coach" button for free-text questions.
+**Practice Screen:** Live camera feed with Apple Vision posture skeleton overlay. Body positioning guide that fades when the student is detected. Pitch display with smoothed note detection and cents bar. Session timer. Gemma 4 coaching overlay with model source indicator, updating every 3 seconds with multimodal input.
 
-**Ask Coach:** A modal where the student can ask any violin technique question. Pre-populated with common beginner questions (*"Why does my bow sound scratchy?"*). Routes to Gemma 4 26B with a source indicator showing whether the response came from on-device or the local server.
+**Ask Coach:** Modal where the student can ask any violin technique question. Pre-populated suggestions for common beginner questions. Routes to 27B with vision capability when available, with clear source labeling.
 
-**Session Summary:** After each practice session, Gemma 4 26B generates a natural language summary with score rings for posture and intonation, the top technique issues by frequency, and a "Generate Practice Plan" button.
+**Session Summary:** Score rings for posture and intonation computed from severity-weighted feedback events (encouragement, suggestion, correction). AI-generated summary with source badge. Top issues by frequency. "Generate Practice Plan" button.
 
-**Practice Plan:** AI-generated 5-day practice plan based on session history, structured as specific daily exercises with durations.
+**Practice Plan:** AI-generated structured 5-day plan with daily focus areas, specific exercises, durations, and tips.
 
-**Teacher Report:** Structured summary for the student's teacher — issues by frequency, progress trend, recommended focus — exported via iOS share sheet. Requires the local server for full-quality output.
+**Teacher Report:** Professional structured report for the student's teacher — session overview, technique observations, intonation analysis, recommendations, engagement indicators. Shared via iOS share sheet.
 
-**History:** Session calendar with streak tracking.
+**History:** Session list with streak tracking, total practice time, session count, and per-session posture/intonation mini-scores.
 
 ---
 
 ## Privacy and Safety
 
-Every design decision in Maestro Gemma prioritizes privacy and safety for its primary user: a child.
+Every design decision prioritizes privacy and safety for its primary user: a child.
 
-- **No video or audio is ever recorded or stored.** The camera and microphone are processed in memory only, in real time, and discarded.
-- **No data leaves the device or local network.** There are no external API calls. The Ollama server runs on hardware the family owns.
-- **No account required.** No login, no profile, no analytics.
+- **No video or audio is ever recorded or stored.** Camera and microphone are processed in memory only and discarded.
+- **No data leaves the device or local network.** No cloud APIs, no external calls. The Ollama server runs on hardware the family owns.
+- **No account required.** No login, no profile, no analytics, no telemetry.
 - **COPPA compliant by design.** The absence of data collection is the compliance strategy.
-- **Child-appropriate language throughout.** All Gemma 4 prompts include: *"Speak encouragingly. Give one clear observation at a time. Never be harsh."*
+- **Child-appropriate language throughout.** All prompts enforce encouraging, simple, age-appropriate responses.
 
 ---
 
 ## Impact
 
-The equity argument for Maestro Gemma is direct: expert violin instruction is expensive and geographically concentrated. A child in rural Appalachia with a $50 violin and no local teachers has no access to the feedback that builds good habits. Maestro Gemma removes that barrier.
+The equity argument is direct: expert violin instruction is expensive and geographically concentrated. A child in rural Appalachia with a $50 violin and no local teachers has no access to the feedback that builds good habits. Maestro Gemma removes that barrier.
 
-The technology works because Gemma 4's multimodal understanding, combined with Apple Vision's body pose detection and AVFoundation's pitch analysis, produces coaching that is genuinely useful — not generic. The on-device deployment means it works anywhere, with no internet, on hardware every student already carries.
+The technology works because Gemma 4's multimodal understanding — actually seeing the student through the camera, not just receiving preprocessed sensor data — produces coaching that is genuinely useful. The on-device deployment means it works anywhere, with no internet, on hardware every student already carries.
 
 Arthur now practices with more focus. He knows someone is watching.
 
@@ -104,11 +87,11 @@ Arthur now practices with more focus. He knows someone is watching.
 - **Platform:** iOS 17+, Swift 5.10, SwiftUI, SwiftData
 - **On-device model:** Gemma 4 E2B, INT4, Apple NPU via Cactus SDK v1.12
 - **Model weights:** `Cactus-Compute/gemma-4-E2B-it` (HuggingFace)
-- **Local server model:** Gemma 4 26B via Ollama 0.20.2
-- **Vision:** Apple Vision `VNDetectHumanBodyPoseRequest`
-- **Audio:** AVFoundation + autocorrelation pitch detection
+- **Local server model:** Gemma 4 27B via Ollama 0.20.2
+- **Vision:** Apple Vision body pose (5 heuristic checks) + Gemma 4 multimodal vision (direct frame analysis)
+- **Audio:** AVFoundation + smoothed autocorrelation pitch detection with hysteresis
 - **Storage:** SwiftData (local device only)
-- **Routing:** Manual, deterministic, documented in `GemmaCoach.swift`
+- **Routing:** Deterministic, model-verified, with source badges throughout UI
 - **XCFramework:** Built from source at `github.com/cactus-compute/cactus`
 
 ---
@@ -117,4 +100,4 @@ Arthur now practices with more focus. He knows someone is watching.
 
 - **Main Track** — personal story, working demo, real-world impact
 - **Future of Education** — democratizing expert music instruction for children
-- **Cactus Special Technology Prize** — local-first mobile app with intelligent on-device/server routing
+- **Cactus Special Technology Prize** — local-first iOS app with intelligent multimodal routing between on-device E2B and local server 27B

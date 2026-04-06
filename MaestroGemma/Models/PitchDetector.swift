@@ -11,6 +11,15 @@ class PitchDetector: NSObject, ObservableObject {
     private let bufferSize: AVAudioFrameCount = 4096
     private let sampleRate: Double = 44100
 
+    // Smoothing: moving average of recent frequencies
+    private var recentFrequencies: [Double] = []
+    private let smoothingWindow = 5
+
+    // Hysteresis: require stable note before switching display
+    private var candidateNote: String = "—"
+    private var candidateCount: Int = 0
+    private let stabilityThreshold = 3
+
     func start() {
         let inputNode = audioEngine.inputNode
         let format = inputNode.outputFormat(forBus: 0)
@@ -32,6 +41,9 @@ class PitchDetector: NSObject, ObservableObject {
     func stop() {
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.stop()
+        recentFrequencies.removeAll()
+        candidateNote = "—"
+        candidateCount = 0
         DispatchQueue.main.async {
             self.isActive = false
             self.detectedNote = "—"
@@ -45,11 +57,38 @@ class PitchDetector: NSObject, ObservableObject {
         let data = Array(UnsafeBufferPointer(start: channelData, count: frameCount))
 
         guard let frequency = autocorrelationPitch(data, sampleRate: sampleRate), frequency > 60 else {
-            DispatchQueue.main.async { self.detectedNote = "—" }
+            recentFrequencies.removeAll()
+            candidateNote = "—"
+            candidateCount = 0
+            DispatchQueue.main.async {
+                self.detectedNote = "—"
+                self.detectedCents = 0
+            }
             return
         }
 
-        let (note, cents) = noteAndCents(from: frequency)
+        // Moving average to smooth jitter
+        recentFrequencies.append(frequency)
+        if recentFrequencies.count > smoothingWindow {
+            recentFrequencies.removeFirst()
+        }
+        let avgFreq = recentFrequencies.reduce(0, +) / Double(recentFrequencies.count)
+
+        let (note, rawCents) = noteAndCents(from: avgFreq)
+
+        // Snap cents to nearest 5 to reduce visual noise
+        let cents = (rawCents / 5) * 5
+
+        // Hysteresis: only switch displayed note after stability threshold
+        if note == candidateNote {
+            candidateCount += 1
+        } else {
+            candidateNote = note
+            candidateCount = 1
+        }
+
+        guard candidateCount >= stabilityThreshold else { return }
+
         DispatchQueue.main.async {
             self.detectedNote = note
             self.detectedCents = cents
@@ -80,8 +119,8 @@ class PitchDetector: NSObject, ObservableObject {
             }
         }
 
-        // Require reasonable correlation
-        guard acf[0] > 0, peakValue / acf[0] > 0.3 else { return nil }
+        // Require strong correlation — stricter to reject harmonics and noise
+        guard acf[0] > 0, peakValue / acf[0] > 0.4 else { return nil }
 
         return sampleRate / Double(peakLag)
     }

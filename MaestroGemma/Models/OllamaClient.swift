@@ -29,28 +29,50 @@ actor OllamaClient {
         var request = URLRequest(url: url, timeoutInterval: reachabilityTimeout)
         request.httpMethod = "GET"
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            return (response as? HTTPURLResponse)?.statusCode == 200
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else { return false }
+            // Verify our target model is actually loaded
+            if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let models = json["models"] as? [[String: Any]] {
+                let names = models.compactMap { $0["name"] as? String }
+                let hasModel = names.contains { $0.hasPrefix("gemma") }
+                if !hasModel {
+                    print("[OllamaClient] Ollama reachable but no Gemma model found. Available: \(names)")
+                }
+                return hasModel
+            }
+            return true
         } catch {
             return false
         }
     }
 
-    // MARK: - Generate
+    // MARK: - Generate (text only)
 
     func generate(prompt: String, systemPrompt: String, maxTokens: Int = 500) async throws -> String {
+        return try await generate(prompt: prompt, systemPrompt: systemPrompt, imageBase64: nil, maxTokens: maxTokens)
+    }
+
+    // MARK: - Generate (with optional vision)
+
+    func generate(prompt: String, systemPrompt: String, imageBase64: String?, maxTokens: Int = 500) async throws -> String {
         guard let url = URL(string: "\(baseURL)/api/generate") else {
             throw CoachError.inferenceFailure("Invalid Ollama URL")
         }
 
         let fullPrompt = systemPrompt.isEmpty ? prompt : "\(systemPrompt)\n\n\(prompt)"
 
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "model": model,
             "prompt": fullPrompt,
             "stream": false,
             "options": ["temperature": 0.7, "num_predict": maxTokens]
         ]
+
+        // Attach image for multimodal analysis if provided
+        if let img = imageBase64 {
+            body["images"] = [img]
+        }
 
         var request = URLRequest(url: url, timeoutInterval: generateTimeout)
         request.httpMethod = "POST"
